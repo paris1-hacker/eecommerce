@@ -1,0 +1,276 @@
+{%extends 'main.html'%}
+
+{%load static %}
+
+{%block content%}
+
+<main class="main">
+	<div class="container">
+		<ul class="checkout-progress-bar d-flex justify-content-center flex-wrap">
+			<li class="active">
+				<a href="{%url 'cart'%}">Shopping Cart</a>
+			</li>
+			<li>
+				<a href="{%url 'checkout'%}">Checkout</a>
+			</li>
+			<li class="disabled">
+				<a href="{%url 'cart'%}">Order Complete</a>
+			</li>
+		</ul>
+
+		<div class="row">
+
+			<div class="col-lg-8">
+
+				<div class="cart-table-container">
+					{% comment %} <form action="{%url 'update-cart'%}" method="POST"> {% endcomment %}
+						{% comment %} {%csrf_token%} {% endcomment %}
+
+						<table class="table table-cart">
+							<thead>
+								<tr>
+									<th class="thumbnail-col"></th>
+									<th class="product-col">Product</th>
+									<th class="price-col">Price</th>
+									<th class="qty-col">Quantity</th>
+									<th class="text-right">Subtotal</th>
+									
+								</tr>
+							</thead>
+							<tbody>
+								
+								{%for item in items%}
+								<tr class="product-row">
+									
+									<td>
+
+										<figure class="product-image-container">
+											<a href="" class="product-image">
+												<img src="{{item.product.imageURL}}" style="width:60px" alt="product">
+											</a>
+											
+										</figure>
+										<a href="javascript:;" data-item="{{item.id}}" class="btn-remove icon-cancel" title="Remove"></a>
+
+									</td>
+
+									<td class="product-col">
+										<h5 class="product-title">
+											<a href="">{{item.product.name|upper}}</a>
+										</h5>
+									</td>
+										
+									<td>{{item.product.price}}</td>
+									<td>
+										
+										<div class="quantity">
+											<img data-product="{{item.product.id}}" data-action="add" class="chg add-cart" src="{%static 'assets/images/arrow-up.png'%}">
+												<p id="cart-item" data-product="{{item.product.id}}" >{{item.quantity}}</p>
+											<img  data-product="{{item.product.id}}" data-action="remove" class="chg add-cart" src="{%static 'assets/images/arrow-down.png'%}">
+										</div>
+
+										
+										{% comment %} <div class="product-single-qty"> {% endcomment %}
+											
+											{% comment %} <input class="horizontal-quantity form-control" 
+												type="number" value="{{item.quantity}}" name="quantity_{{item.id}}"  min="1">
+										 {% endcomment %}
+										{% comment %} </div><!-- End .product-single-qty --> {% endcomment %}
+									
+									</td>
+									<td data-product="{{item.product.id}}" class="text-right"><span class="subtotal-price">₦{{item.get_subtotal}}</span></td>
+								</tr>
+								{%endfor%}
+
+								
+							</tbody>
+
+
+							<tfoot>
+								<tr>
+									<td colspan="5" class="clearfix">
+										<div class="float-left">
+											{% comment %} <div class="cart-discount">
+
+												<form action="#">
+													<div class="input-group">
+														<input type="text" class="form-control form-control-sm"
+															placeholder="Coupon Code" required>
+														<div class="input-group-append">
+															<button class="btn btn-sm" type="submit">Apply
+																Coupon</button>
+														</div>
+													</div><!-- End .input-group -->
+												</form>
+
+											</div> {% endcomment %}
+										</div><!-- End .float-left -->
+
+										<div class="float-right">
+											<button type="submit" data-product="{{item.product.id}}" action="add" class="btn btn-shop btn-update-cart add-cart">
+												Update Cart
+											</button>
+										</div><!-- End .float-right -->
+									</td>
+								</tr>
+							</tfoot>
+						</table>
+					{% comment %} </form> {% endcomment %}
+				</div><!-- End .cart-table-container -->
+			</div><!-- End .col-lg-8 -->
+
+			<div class="col-lg-4">
+				<div class="cart-summary">
+					<h3>CART TOTALS</h3>
+
+					<table class="table table-totals">
+						<tbody>
+							<tr>
+								<td>Subtotal</td>
+								<td>N{{subtotal}}</td>
+							</tr>
+
+							<tr>
+								<td colspan="2" class="text-left">
+									<h4>Shipping</h4>
+
+									<form method="GET" action="">
+										<div class="form-group form-group-custom-control">
+											<div class="custom-control custom-radio">
+												<input type="radio" class="custom-control-input" name="shipping_type"  value="pickup"
+													checked>
+												<label class="custom-control-label">Local pickup(Free - Calabar)</label>
+											</div><!-- End .custom-checkbox -->
+										</div><!-- End .form-group -->
+
+										<div class="form-group form-group-custom-control mb-0">
+											<div class="custom-control custom-radio mb-0">
+												<input type="radio" name="shipping_type" value="delivery" class="custom-control-input">
+												<label class="custom-control-label">Delivery (Differs Per State)</label>
+											</div><!-- End .custom-checkbox -->
+										</div><!-- End .form-group -->
+
+											{% comment %} Js to recalcute the total cost when radion button is clicked  {% endcomment %}
+											<script>
+												const radios = document.querySelectorAll('input[name="shipping_type"]');
+
+												radios.forEach(radio => {
+													radio.addEventListener('change', function () {
+														let shipping = parseInt(this.value);
+														let subtotal = {{ subtotal }};
+
+														let total = subtotal + shipping;
+
+														document.getElementById('total-price').innerText = "₦" + total;
+													});
+												});
+												
+												document.addEventListener('DOMContentLoaded', function () {
+
+													const radios = document.querySelectorAll('input[name="shipping_type"]');
+													const deliverySection = document.getElementById('delivery-section');
+
+													radios.forEach(radio => {
+														radio.addEventListener('change', function () {
+
+															// SHOW/HIDE DELIVERY FORM
+															if (this.value === 'delivery') {
+																deliverySection.style.display = 'block';
+															} else {
+																deliverySection.style.display = 'none';
+															}
+
+															// CALCULATE TOTAL (optional fix)
+															let subtotal = parseFloat("{{ subtotal }}");
+
+															let shipping = 0;
+
+															if (this.value === 'delivery') {
+																// optional: later you can get real fee via AJAX
+																shipping = 0;
+															}
+
+															let total = subtotal + shipping;
+
+															document.getElementById('total-price').innerText = "₦" + total;
+
+														});
+													});
+
+												});
+
+
+											</script>
+
+
+										<div id="delivery-section" style="display:none;">
+
+											<div class="form-group form-group-sm">
+												<label>Shipping to <strong>NY.</strong></label>
+												<div class="select-custom">
+
+													<select name="state" class="form-control form-control-sm ">
+														<option value="">Select State</option>
+														{%for shipping in shipppingFee%}
+														<option value="{{shipping.state}}">{{shipping.state}} ({{shipping.fee}})</option>
+														{%endfor%}
+											
+													</select>
+
+												</div><!-- End .select-custom -->
+											</div><!-- End .form-group -->
+
+											{% comment %} <div class="form-group form-group-sm">
+												<div class="select-custom">
+													<select class="form-control form-control-sm">
+														<option value="NY">New York</option>
+														<option value="CA">California</option>
+														<option value="TX">Texas</option>
+													</select>
+												</div><!-- End .select-custom -->
+											</div><!-- End .form-group --> {% endcomment %}
+
+											<div class="form-group form-group-sm">
+												<input type="text" name="town" class="form-control form-control-sm"
+													placeholder="Town / City">
+											</div><!-- End .form-group -->
+
+											<div class="form-group form-group-sm">
+												<input type="text" name="zipcode" class="form-control form-control-sm"
+													placeholder="ZIP">
+											</div><!-- End .form-group -->
+
+											<button  type="submit" class="btn btn-shop btn-update-total">
+												Update Totals
+											</button>
+										</div>
+									</form>
+								</td>
+							</tr>
+						</tbody>
+
+						<tfoot>
+							<tr>
+								<td>Total</td>					
+								<td id="total-price">{{total}}</td>
+			
+							</tr>
+						</tfoot>
+					</table>
+					{%if cart.cartitem_set.count <= 0%}
+					<div> </div>
+					{%else%}
+					<div class="checkout-methods">
+						<a href="{%url 'checkout'%}" class="btn btn-block btn-dark">Proceed to Checkout
+							<i class="fa fa-arrow-right"></i></a>
+					</div>
+					{%endif%}
+				</div><!-- End .cart-summary -->
+			</div><!-- End .col-lg-4 -->
+		</div><!-- End .row -->
+	</div><!-- End .container -->
+
+	<div class="mb-6"></div><!-- margin -->
+</main><!-- End .main -->
+{%endblock content%}
+		

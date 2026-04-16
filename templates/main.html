@@ -1,0 +1,817 @@
+{%extends 'base.html'%}
+{%load static%}
+{%load multiply%}
+
+
+{%block content%}
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li>{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+
+
+
+<main class="main home">
+    <div class="container mb-2">
+        <div class="info-boxes-container row row-joined mb-2 font2">
+            <div class="info-box info-box-icon-left col-lg-4">
+                <i class="icon-shipping"></i>
+
+                <div class="info-box-content">
+                    <h4>FREE SHIPPING &amp; RETURN</h4>
+                    <p class="text-body">Free shipping on all orders over N20,000</p>
+                </div>
+                <!-- End .info-box-content -->
+            </div>
+            <!-- End .info-box -->
+
+            <div class="info-box info-box-icon-left col-lg-4">
+                <i class="icon-money"></i>
+
+                <div class="info-box-content">
+                    <h4>MONEY BACK GUARANTEE</h4>
+                    <p class="text-body">100% money back guarantee</p>
+                </div>
+                <!-- End .info-box-content -->
+            </div>
+            <!-- End .info-box -->
+
+            <div class="info-box info-box-icon-left col-lg-4">
+                <i class="icon-support"></i>
+
+                <div class="info-box-content">
+                    <h4>ONLINE SUPPORT 24/7</h4>
+                    <p class="text-body">We offer total and 100% online support.</p>
+                </div>
+                <!-- End .info-box-content -->
+            </div>
+            <!-- End .info-box -->
+        </div>
+
+        <div class="row">
+            <div class="col-lg-9">
+                <div class="home-slider slide-animate owl-carousel owl-theme mb-2" data-owl-options="{
+                    'loop': false,
+                    'dots': true,
+                    'nav': false
+                }">
+                    <div class="home-slide home-slide1 banner banner-md-vw banner-sm-vw d-flex align-items-center">
+                        
+                        <img class="slide-bg" style="background-color: #2699D0;" src="{%static 'assets/images/demoes/demo1/slider/paris.png'%}"  alt="home-slider">
+                        <div class="banner-layer appear-animate" data-animation-name="fadeInUpShorter">
+                            <h4 class="text-white mb-0">Find the Boundaries. Push Through!</h4>
+                            <h2 class="text-white mb-0">Unicross Sales </h2>
+                            <h3 class="text-white text-uppercase m-b-3">70% Off</h3>
+                            <h5 class="text-white text-uppercase d-inline-block mb-0 ls-n-20 align-text-bottom">
+                                Starting At <b class="coupon-sale-text bg-secondary text-white d-inline-block">N<em
+                                        class="align-text-top">7999</em>99</b></h5>
+                            <a href="{%url 'shop'%}" class="btn btn-dark btn-md ls-10">Shop Now!</a>
+                        </div>
+                        <!-- End .banner-layer -->
+                    </div>
+                    <!-- End .home-slide -->
+
+                    <div class="home-slide home-slide2 banner banner-md-vw banner-sm-vw d-flex align-items-center">
+                        <img class="slide-bg" style="background-color: #dadada;" src="{%static 'assets/images/demoes/demo1/slider/image2.jpg'%}" width="880" height="428" alt="home-slider">
+                        <div class="banner-layer text-uppercase appear-animate" data-animation-name="fadeInUpShorter">
+                            <h4 class="m-b-2">Over 200 products with discounts</h4>
+                            <h2 class="m-b-3">Great Deals</h2>
+                            <h5 class="d-inline-block mb-0 align-top mr-5 mb-2">Starting At
+                                <b>$<em>299</em>99</b>
+                            </h5>
+                            <a href="{%url 'shop'%}" class="btn btn-dark btn-md ls-10">Get Yours!</a>
+                        </div>
+                        <!-- End .banner-layer -->
+                    </div>
+                    <!-- End .home-slide -->
+
+                    <div class="home-slide home-slide3 banner banner-md-vw banner-sm-vw  d-flex align-items-center">
+                        <img class="slide-bg" style="background-color: #e5e4e2;" src="{%static 'assets/images/demoes/demo1/slider/slide-3.jpg'%}" width="880" height="428" alt="home-slider" />
+                        <div class="banner-layer text-uppercase appear-animate" data-animation-name="fadeInUpShorter">
+                            <h4 class="m-b-2">Up to 70% off</h4>
+                            <h2 class="m-b-3">New Arrivals</h2>
+                            <h5 class="d-inline-block mb-0 align-top mr-5 mb-2">Starting At
+                                <b>$<em>6999</em>99</b>
+                            </h5>
+                            <a href="{%url 'shop'%}" class="btn btn-dark btn-md ls-10">Get Yours!</a>
+                        </div>
+                        <!-- End .banner-layer -->
+                    </div>
+                    <!-- End .home-slide -->
+                </div>
+                <!-- End .home-slider -->
+
+                <div class="banners-container m-b-2 owl-carousel owl-theme" data-owl-options="{
+                    'dots': false,
+                    'margin': 20,
+                    'loop': false,
+                    'responsive': {
+                        '480': {
+                            'items': 2
+                        },
+                        '768': {
+                            'items': 3
+                        }
+                    }
+                }">
+                    {% comment %} banner {% endcomment %}
+                    <div class="banner banner1 banner-hover-shadow d-flex align-items-center mb-2 w-100 appear-animate" data-animation-name="fadeInLeftShorter" data-animation-delay="500">
+                        <figure class="w-100">
+                            <img src="{%static 'assets/images/demoes/demo1/banners/banner-1.jpg'%}" style="background-color: #dadada;" alt="banner">
+                        </figure>
+                        <div class="banner-layer">
+                            <h3 class="m-b-2">Porto Watches</h3>
+                            <h4 class="m-b-4 text-primary"><sup class="text-dark"><del>20%</del></sup>30%<sup>OFF</sup></h4>
+                            <a href="{%url 'shop'%}" class="text-dark text-uppercase ls-10">Shop Now</a>
+                        </div>
+                    </div>
+                    <!-- End .banner -->
+
+
+                    <div class="banner banner2 text-uppercase banner-hover-shadow d-flex align-items-center mb-2 w-100 appear-animate" data-animation-name="fadeInUpShorter" data-animation-delay="200">
+                        <figure class="w-100">
+                            <img src="{%static 'assets/images/demoes/demo1/banners/banner-2.jpg'%}" style="background-color: #dadada;" alt="banner">
+                        </figure>
+                        <div class="banner-layer text-center">
+                            <h3 class="m-b-1 ls-n-20">Deal Promos</h3>
+                            <h4 class="text-body">Starting at $99</h4>
+                            <a href="{%url 'shop'%}" class="text-dark text-uppercase ls-10">Shop Now</a>
+                        </div>
+                    </div>
+                    <!-- End .banner -->
+
+                    <div class="banner banner3 banner-hover-shadow d-flex align-items-center mb-2 w-100 appear-animate" data-animation-name="fadeInRightShorter" data-animation-delay="500">
+                        <figure class="w-100">
+                            <img src="{%static 'assets/images/demoes/demo1/banners/banner-3.jpg'%}" style="background-color: #dadada;" alt="banner">
+                        </figure>
+                        <div class="banner-layer text-right">
+                            <h3 class="m-b-2">Handbags</h3>
+                            <h4 class="mb-3 text-secondary text-uppercase">Starting at $99</h4>
+                            <a href="{%url 'shop'%}" class="text-dark text-uppercase ls-10">Shop Now</a>
+                        </div>
+                    </div>
+                    <!-- End .banner -->
+                </div>
+
+                <h2 class="section-title ls-n-10 m-b-4 appear-animate" data-animation-name="fadeInUpShorter">
+                    Featured Products</h2>
+                
+                <div class="products-slider owl-carousel owl-theme dots-top dots-small m-b-1 pb-1 appear-animate" data-animation-name="fadeInUpShorter">
+                    {%for feature in is_featured%}
+                    <div class="product-default inner-quickview inner-icon">
+                        <figure class="img-effect">
+                            <a href="{%url 'view' feature.id%}">
+                                <img src="{{feature.image.url}}" width="205" height="205" alt="product">
+                                <img src="{{feature.image.url}}" width="205" height="205" alt="product">
+                            </a>
+                            <div class="label-group">
+                                <div class="product-label label-hot">HOT</div>
+                            </div>
+                            <div class="btn-icon-group">
+                                <a href="#" title="Add To Cart" class="btn-icon btn-add-cart product-type-simple"><i
+                                        class="icon-shopping-cart"></i></a>
+                            </div>
+                            <a href="ajax/product-quick-view.html" class="btn-quickview" title="Quick View">Quick View</a>
+                        </figure>
+
+                        <div class="product-details">
+                            <div class="category-wrap">
+                                <div class="category-list">
+                                    <a href="{%url 'shop'%}" class="product-category">category - {{feature.sub_category}}</a>
+                                </div>
+                                <a href="{%url 'wishlist'%}" title="Add to Wishlist" class="btn-icon-wish"><i
+                                        class="icon-heart"></i></a>
+                            </div>
+                            <h3 class="product-title"> <a href="{%url 'view' feature.id%}">{{feature.name}}</a>
+                            </h3>
+                            <div class="ratings-container">
+                                
+                                
+                                <div class="product-ratings">
+                                    {%if feature.average_rating%}
+                                        {% with width=feature.average_rating|floatformat:1|mul:20 %}
+                                            <span class="ratings" style="width: {{width}}% "></span>
+                                        {%endwith%}
+                                    {%else%}
+                                     <span class="ratings" style="width: 0%"></span>
+                                    <!-- End .ratings -->
+                                    <span class="tooltiptext tooltip-top">{{feature.average_rating}}/5</span>
+                                    {%endif%}
+                                </div>
+
+                                <!-- End .product-ratings -->
+                            </div>
+                            <!-- End .product-container -->
+                            <div class="price-box">
+                                <span class="product-price">{{feature.price}}</span>
+                            </div>
+                            <!-- End .price-box -->
+                        </div>
+                        <!-- End .product-details -->
+                    </div>
+                    {%endfor%}
+                </div>
+                
+
+                <!-- End .featured-proucts -->
+
+                {% comment %} <div class="brands-slider owl-carousel owl-theme images-center appear-animate" data-animation-name="fadeIn" data-animation-duration="700" data-owl-options="{
+                    'margin': 0,
+                    'responsive': {
+                        '768': {
+                            'items': 4
+                        },
+                        '991': {
+                            'items': 4
+                        },
+                        '1200': {
+                            'items': 5
+                        }
+                    }
+                }">
+                    <img src="{%static 'assets/images/brands/small/brand1.png'%}" width="140" height="60" alt="brand">
+                    <img src="{%static 'assets/images/brands/small/brand2.png'%}" width="140" height="60" alt="brand">
+                    <img src="{%static 'assets/images/brands/small/brand3.png'%}" width="140" height="60" alt="brand">
+                    <img src="{%static 'assets/images/brands/small/brand4.png'%}" width="140" height="60" alt="brand">
+                    <img src="{%static 'assets/images/brands/small/brand5.png'%}" width="140" height="60" alt="brand">
+                    <img src="{%static 'assets/images/brands/small/brand6.png'%}" width="140" height="60" alt="brand">
+                </div> 
+                <!-- End .brands-slider --> {% endcomment %}
+
+                <div class="row products-widgets">
+                    
+                    <div class="col-sm-6 col-md-4 pb-4 pb-md-0 appear-animate" data-animation-name="fadeInLeftShorter" data-animation-delay="200">
+                        
+                        <div class="product-column">
+                            <h3 class="section-sub-title ls-n-20">Top Rated Products</h3>
+                            {%for product in top_rated%}
+                            <div class="product-default left-details product-widget">
+                                <figure>
+                                    <a href="{%url 'view' product.id%}">
+                                        <img src="{{product.image.url}}" width="84" height="84" alt="product">
+                                        <img src="{{product.image.url}}" width="84" height="84" alt="product">
+                                    </a>
+                                </figure>
+                                <div class="product-details">
+                                    <h3 class="product-title"> <a href="{%url 'view' product.id%}">{{product.name}}</a> </h3>
+                                    
+                                    <div class="ratings-container">
+                                        
+                                        <div class="product-ratings">
+                                            {%if product.average_rating%}
+                                                {%with width=product.average_rating|floatformat:1|mul:20%}
+                                                    <span class="ratings" style="width: {{width}}%"></span>
+                                                {%endwith%}
+                                            {%else%}
+                                            <span class="ratings" style="width: 0%"></span>
+                                            <!-- End .ratings -->
+                                            <span class="tooltiptext tooltip-top">{{product.average_rating}}/5</span>
+                                            {%endif%}
+                                        </div>
+                                        <!-- End .product-ratings -->
+                                    </div>
+                                    
+                                    <!-- End .product-container -->
+                                    <div class="price-box">
+                                        <span class="product-price">{{product.price}}</span>
+                                    </div>
+                                    <!-- End .price-box -->
+                                </div>
+                                <!-- End .product-details -->
+                            </div>
+                            {%endfor%}
+                        </div>
+                        
+                        <!-- End .product-column -->
+                    </div>
+                    
+                    <!-- End .col-md-4 -->
+
+                    <div class="col-sm-6 col-md-4 pb-4 pb-md-0 appear-animate" data-animation-name="fadeInLeftShorter" data-animation-delay="500">
+                        <div class="product-column">
+                            <h3 class="section-sub-title ls-n-20">Best Selling Products</h3>
+                            {%for product in best_seller%}
+                            <div class="product-default left-details product-widget ">
+                                <figure>
+                                    <a href="{%url 'view' product.id%}">
+                                        <img src="{{product.image.url}}" width="84" height="84" alt="product">
+                                    </a>
+                                </figure>
+                                <div class="product-details">
+                                    <h3 class="product-title"> <a href="{%url 'view' product.id%}">{{product.name}}</a>
+                                    </h3>
+                                    
+                                    <div class="ratings-container">
+                                        <div class="product-ratings">
+                                            {%if product.average_rating%}
+                                                {% with width=product.average_rating|floatformat:1|mul:20 %}
+                                                    <span class="ratings" style="width: {{width}}% "></span>
+                                                {%endwith%}
+                                            {%else%}
+                                            <span class="ratings" style="width: 0%"></span>
+                                            <!-- End .ratings -->
+                                            <span class="tooltiptext tooltip-top">{{feature.rating}}/5</span>
+                                            {%endif%}
+                                        </div>
+
+                                            <!-- End .product-ratings -->
+                                    </div>
+                                    <!-- End .product-container -->
+                                    <div class="price-box">
+                                        <span class="product-price">{{product.price}}</span>
+                                    </div>
+                                    <!-- End .price-box -->
+                                </div>
+                                <!-- End .product-details -->
+                            </div>
+                            {%endfor%}
+                        </div>
+                        <!-- End .product-column -->
+                    </div>
+                    <!-- End .col-md-4 -->
+
+                    <div class="col-sm-6 col-md-4 pb-4 pb-md-0 appear-animate" data-animation-name="fadeInLeftShorter" data-animation-delay="800">
+                        <div class="product-column">
+                            <h3 class="section-sub-title ls-n-20">Latest Products</h3>
+                            
+                            {%for product in is_latest%}
+                            <div class="product-default left-details product-widget ">
+                                <figure>
+                                    <a href="{%url 'view' product.id%}">
+                                        <img src="{{product.image.url}}" width="84" height="84" alt="product">
+                                        <img src="{{product.image.url}}" width="84" height="84" alt="product">
+                                    </a>
+                                </figure>
+                                <div class="product-details">
+                                    <h3 class="product-title"> <a href="{%url 'view' product.id%}">{{product.name}}</a> </h3>
+                                    <div class="ratings-container">
+                                        <div class="product-ratings">
+                                            {%if product.average_rating%}
+                                                {% with width=product.average_rating|floatformat:1|mul:20 %}
+                                                    <span class="ratings" style="width: {{width}}% "></span>
+                                                {%endwith%}
+                                            {%else%}
+                                            <span class="ratings" style="width: 0%"></span>
+                                            <!-- End .ratings -->
+                                            <span class="tooltiptext tooltip-top">{{product.average_rating}}/5</span>
+                                            {%endif%}
+                                        </div>
+
+                                            <!-- End .product-ratings -->
+                                    </div>
+                                    
+        
+                                    <div class="price-box">
+                                        <span class="product-price">{{product.price}}</span>
+                                    </div>
+                                    <!-- End .price-box -->
+                                </div>
+                                <!-- End .product-details -->
+                            </div>
+                            {%endfor%}
+                            
+
+                        </div>
+                        <!-- End .product-column -->
+                    </div>
+                    <!-- End .col-md-4 -->
+                </div>
+                <!-- End .row -->
+
+                <hr class="mt-1 mb-3 pb-2">
+
+                <div class="feature-boxes-container">
+                    <div class="row">
+                        <div class="col-md-4 appear-animate" data-animation-name="fadeInRightShorter" data-animation-delay="200">
+                            <div class="feature-box  feature-box-simple text-center">
+                                <i class="icon-earphones-alt"></i>
+
+                                <div class="feature-box-content p-0">
+                                    <h3 class="mb-0 pb-1">Customer Support</h3>
+                                    <h5 class="mb-1 pb-1">Need Assistance?</h5>
+
+                                    <p>Our dedicated team is here to help you with any questions or issues you may have. Whether it’s tracking your order, managing your account, or learning more about our products, we’re committed to providing fast and friendly support.</p>
+                                </div>
+                                <!-- End .feature-box-content -->
+                            </div>
+                            <!-- End .feature-box -->
+                        </div>
+                        <!-- End .col-md-4 -->
+
+                        <div class="col-md-4 appear-animate" data-animation-name="fadeInRightShorter" data-animation-delay="400">
+                            <div class="feature-box feature-box-simple text-center">
+                                <i class="icon-credit-card"></i>
+
+                                <div class="feature-box-content p-0">
+                                    <h3 class="mb-0 pb-1">Secured Payment</h3>
+                                    <h5 class="mb-1 pb-1">Safe & Fast</h5>
+
+                                    <p>We ensure your transactions are completely secure with the latest encryption technology. Pay with confidence knowing your personal and payment information is protected every step of the way, while enjoying a smooth and fast checkout experience.</p>
+                                </div>
+                                <!-- End .feature-box-content -->
+                            </div>
+                            <!-- End .feature-box -->
+                        </div>
+                        <!-- End .col-md-4 -->
+
+                        <div class="col-md-4 appear-animate" data-animation-name="fadeInRightShorter" data-animation-delay="600">
+                            <div class="feature-box feature-box-simple text-center">
+                                <i class="icon-action-undo"></i>
+
+                                <div class="feature-box-content p-0">
+                                    <h3 class="mb-0 pb-1">Returns</h3>
+                                    <h5 class="mb-1 pb-1">Easy & Free</h5>
+
+                                    <p>We make returns simple and hassle-free. If you’re not completely satisfied with your purchase, you can return it easily at no extra cost. Our goal is to ensure you shop with confidence and peace of mind.</p>
+                                </div>
+                                <!-- End .feature-box-content -->
+                            </div>
+                            <!-- End .feature-box -->
+                        </div>
+                        <!-- End .col-md-4 -->
+                    </div>
+                    <!-- End .row -->
+                </div>
+                <!-- End .feature-boxes-container -->
+            </div>
+            <!-- End .col-lg-9 -->
+
+            <div class="sidebar-overlay"></div>
+            <div class="sidebar-toggle custom-sidebar-toggle"><i class="fas fa-sliders-h"></i></div>
+            <aside class="sidebar-home col-lg-3 order-lg-first mobile-sidebar">
+                <div class="side-menu-wrapper text-uppercase mb-2 d-none d-lg-block">
+                    <h2 class="side-menu-title bg-gray ls-n-25">Browse Categories</h2>
+
+                    <nav class="side-nav">
+                        <ul class="menu menu-vertical sf-arrows">
+                            <li class="active"><a href="{%url 'home'%}"><i class="icon-home"></i>Home</a></li>
+                            <li>
+                                <a href="{%url 'shop'%}" class="sf-with-ul"><i
+                                        class="sicon-badge"></i>Categories</a>
+
+                                <div class="megamenu megamenu-fixed-width megamenu-3cols">
+                                    <div class="row">
+                                        {%for category in categorys%}
+                                        <div class="col-lg-4">
+                                            
+                                            <a href="#" class="nolink pl-0">{{category.name}}</a>
+                                                {%for sub in category.subcategory.all%}
+                                                <ul class="submenu">
+                                                    <li><a href="{%url 'shop'%}">{{sub.name}}</a></li>
+                                                </ul>
+                                                {%endfor%}
+                                        
+                                        </div>
+                                        {%endfor%}
+
+                                        
+                                        <div class="col-lg-4 p-0">
+                                            <div class="menu-banner">
+                                                <figure>
+                                                    <img src="{%static 'assets/images/menu-banner.jpg'%}" width="192" height="313" alt="Menu banner">
+                                                </figure>
+                                                <div class="banner-content">
+                                                    <h4>
+                                                        <span class="">UP TO</span><br />
+                                                        <b class="">50%</b>
+                                                        <i>OFF</i>
+                                                    </h4>
+                                                    <a href="{%url 'shop'%}" class="btn btn-sm btn-dark">SHOP
+                                                        NOW</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- End .megamenu -->
+                            </li>
+
+
+                            <li>
+                                <a href="{%url 'shop' %}" class="sf-with-ul"><i
+                                        class="sicon-basket"></i>Products</a>
+                                <div class="megamenu megamenu-fixed-width">
+                                    <div class="row">
+                                        
+                                        {% comment %} Producct page {% endcomment %}
+                                        
+                                        <div class="col-lg-4">
+                                            <a href="#" class="nolink pl-0">PRODUCT PAGES</a>
+                                            {%for product in products%}
+                                            <ul class="submenu">
+                                               
+                                                <li><a href="{%url 'view' product.id%}">{{product.name}}</a></li>
+                                               
+                                            </ul>
+                                            {%endfor%}
+                                        </div>
+                                        <!-- End .col-lg-4 -->
+
+                                        
+                                        <!-- End .col-lg-4 -->
+
+                                        <div class="col-lg-4 p-0">
+                                            <div class="menu-banner menu-banner-2">
+                                                <figure>
+                                                    <img src="{%static 'assets/images/menu-banner-1.jpg'%}" alt="Menu banner" class="product-promo">
+                                                </figure>
+                                                <i>OFF</i>
+                                                <div class="banner-content">
+                                                    <h4>
+                                                        <span class="">UP TO</span><br />
+                                                        <b class="">50%</b>
+                                                    </h4>
+                                                </div>
+                                                <a href="{%url 'shop'%}" class="btn btn-sm btn-dark">SHOP
+                                                    NOW</a>
+                                            </div>
+                                        </div>
+                                        <!-- End .col-lg-4 -->
+                                    </div>
+                                    <!-- End .row -->
+                                </div>
+                                <!-- End .megamenu -->
+                            </li>
+                            <li>
+                                <a href="#" class="sf-with-ul"><i class="sicon-envelope"></i>Pages</a>
+
+                                <ul>
+                                    <li><a href="{%url 'wishlist'%}">Wishlist</a></li>
+                                    <li><a href="{%url 'cart'%}">Shopping Cart</a></li>
+                                    <li><a href="{%url 'checkout'%}">Checkout</a></li>
+                                    <li><a href="{%url 'dashboard'%}">Dashboard</a></li>
+                                    <li><a href="{%url 'about'%}">About Us</a></li>
+                                    <li><a href="{%url 'blog'%}">Blog</a>
+                                        <ul>
+                                            <li><a href="{%url 'blog'%}">Blog</a></li>
+                                            <li><a href="{%url 'single'%}">Blog Post</a></li>
+                                        </ul>
+                                    </li>
+                                    <li><a href="{%url 'contact'%}">Contact Us</a></li>
+                                    <li><a href="{%url 'login'%}">Login</a></li>
+                                    <li><a href="{%url 'forgot-password'%}">Forgot Password</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="{%url 'blog'%}"><i class="sicon-book-open"></i>Blog</a></li>
+                            <li><a href="{%url 'about'%}"><i class="sicon-users"></i>About Us</a></li>
+                            <li><a href="#"><i class="icon-cat-gift"></i>Special Offer!</a></li>
+                            {% comment %} <li><a href="https://1.envato.market/DdLk5" target="_blank"><i
+                                        class="sicon-star"></i>Buy Porto!<span
+                                        class="tip tip-hot">Hot</span></a></li> {% endcomment %}
+                        </ul>
+                    </nav>
+                </div>
+                <!-- End .side-menu-container -->
+
+                <div class="widget widget-banners px-3 pb-3 text-center">
+                    <div class="owl-carousel owl-theme dots-small">
+                        <div class="banner d-flex flex-column align-items-center">
+                            <h3 class="badge-sale bg-primary d-flex flex-column align-items-center justify-content-center text-uppercase">
+                                <em>Sale</em>Many Item
+                            </h3>
+
+                            <h4 class="sale-text text-uppercase"><small>UP
+                                    TO</small>50<sup>%</sup><sub>off</sub></h4>
+                            <p>Bags, Clothing, T-Shirts, Shoes, Watches and much more...</p>
+                            <a href="{%url 'shop'%}" class="btn btn-dark btn-md">View Sale</a>
+                        </div>
+                        <!-- End .banner -->
+
+                        <div class="banner banner4">
+                            <figure>
+                                <img src="{%static 'assets/images/demoes/demo1/banners/banner-7.jpg'%}" alt="banner">
+                            </figure>
+
+                            <div class="banner-layer">
+                                <div class="coupon-sale-content">
+                                    <h4>DRONE + CAMERAS</h4>
+                                    <h5 class="coupon-sale-text text-gray ls-n-10 p-0 font1"><i>UP
+                                            TO</i><b class="text-white bg-dark font1">$100</b> OFF</h5>
+                                    <p class="ls-0">Top Brands and Models!</p>
+                                    <a href="{%url 'shop'%}" class="btn btn-inline-block btn-dark btn-black ls-0">VIEW
+                                        SALE</a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End .banner -->
+
+                        <div class="banner banner5">
+                            <h4>HEADPHONES SALE</h4>
+
+                            <figure class="m-b-3">
+                                <img src="{%static 'assets/images/demoes/demo1/banners/banner-8.jpg'%}" alt="banner">
+                            </figure>
+
+                            <div class="banner-layer">
+                                <div class="coupon-sale-content">
+                                    <h5 class="coupon-sale-text ls-n-10 p-0 font1"><i>UP
+                                            TO</i><b class="text-white bg-secondary font1">50%</b> OFF</h5>
+                                    <a href="{%url 'shop'%}" class="btn btn-inline-block btn-dark btn-black ls-0">VIEW
+                                        SALE</a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End .banner -->
+                    </div>
+                    <!-- End .banner-slider -->
+                </div>
+                <!-- End .widget -->
+
+                <div class="widget widget-newsletters bg-gray text-center">
+                    <h3 class="widget-title text-uppercase m-b-3">Subscribe Newsletter</h3>
+                    <p class="mb-2">Get all the latest information on Events, Sales and Offers. </p>
+                    <form action="#">
+                        <div class="form-group position-relative sicon-envolope-letter">
+                            <input type="email" class="form-control" name="newsletter-email" placeholder="Email address">
+                        </div>
+                        <!-- Endd .form-group -->
+                        <input type="submit" class="btn btn-primary btn-md" value="Subscribe">
+                    </form>
+                </div>
+                <!-- End .widget -->
+
+                <div class="widget widget-testimonials">
+                    <div class="owl-carousel owl-theme dots-left dots-small">
+                        <div class="testimonial">
+                            <div class="testimonial-owner">
+                                <figure>
+                                    <img src="{%static 'assets/images/clients/parisceo.jpg'%}" alt="client">
+                                </figure>
+
+                                <div>
+                                    <h4 class="testimonial-title">Paris Patrick</h4>
+                                    <span>CEO &amp; Founder</span>
+                                </div>
+                            </div>
+                            <!-- End .testimonial-owner -->
+
+                            <blockquote class="ml-4 pr-0">
+                                <p>I am the CEO of a dynamic e-commerce business, passionate about leveraging technology to create seamless online shopping experiences.</p>
+                            </blockquote>
+                        </div>
+                        <!-- End .testimonial -->
+
+                        <div class="testimonial">
+                            <div class="testimonial-owner">
+                                <figure>
+                                    <img src="{%static 'assets/images/clients/client-2.jpg'%}" alt="client">
+                                </figure>
+
+                                <div>
+                                    <h4 class="testimonial-title">Emmanuel Emmah</h4>
+                                    <span>CEO &amp; Founder</span>
+                                </div>
+                            </div>
+                            <!-- End .testimonial-owner -->
+
+                            <blockquote class="ml-4 pr-0">
+                                <p>With a strong focus on customer satisfaction, innovation, and operational efficiency, I lead a team dedicated to delivering quality products and exceptional service.
+                                </p>
+                            </blockquote>
+                        </div>
+                        <!-- End .testimonial -->
+
+                        <div class="testimonial">
+                            <div class="testimonial-owner">
+                                <figure>
+                                    <img src="{%static 'assets/images/clients/client-3.jpg'%}" alt="client">
+                                </figure>
+
+                                <div>
+                                    <h4 class="testimonial-title">John Doe</h4>
+                                    <span>CEO &amp; Founder</span>
+                                </div>
+                            </div>
+                            <!-- End .testimonial-owner -->
+
+                            <blockquote class="ml-4 pr-0">
+                                <p>Lorem ipsum dolor sit amet, consectetur elitad adipiscing Cras non placerat mi.
+                                </p>
+                            </blockquote>
+                        </div>
+                        <!-- End .testimonial -->
+                    </div>
+                    <!-- End .testimonials-slider -->
+                </div>
+                <!-- End .widget -->
+
+                <div class="widget widget-posts post-date-in-media media-with-zoom mb-0 mb-lg-2 pb-lg-2">
+                    <div class="owl-carousel owl-theme dots-left dots-m-0 dots-small" data-owl-options="
+                        { 'margin' : 20,
+                            'loop': false }">
+                        <article class="post">
+                            <div class="post-media">
+                                <a href="{url 'single'%%}">
+                                    <img src="{%static 'assets/images/blog/home/post-1.jpg'%}" data-zoom-image="{%static 'assets/images/blog/home/post-1.jpg'%}" width="280" height="209" alt="Post">
+                                </a>
+                                <div class="post-date">
+                                    <span class="day">29</span>
+                                    <span class="month">Jun</span>
+                                </div>
+                                <!-- End .post-date -->
+
+                                <span class="prod-full-screen">
+                                    <i class="fas fa-search"></i>
+                                </span>
+                            </div>
+                            <!-- End .post-media -->
+
+                            {% comment %} Blog Post Body {% endcomment %}
+                            <div class="post-body">
+                                <h2 class="post-title">
+                                    <a href="{%url 'single'%}">Post Format Standard</a>
+                                </h2>
+
+                                <div class="post-content">
+                                    <p>Leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with... </p>
+
+                                    <a href="{%url 'single'%}" class="read-more">read more <i
+                                            class="icon-right-open"></i></a>
+                                </div>
+                                <!-- End .post-content -->
+                            </div>
+                            <!-- End .post-body -->
+                        </article>
+
+                        <article class="post">
+                            <div class="post-media">
+                                <a href="{%url 'single'%}">
+                                    <img src="{%static 'assets/images/blog/home/post-2.jpg'%}" data-zoom-image="{%static 'assets/images/blog/home/post-2.jpg'%}" width="280" height="209" alt="Post">
+                                </a>
+                                <div class="post-date">
+                                    <span class="day">29</span>
+                                    <span class="month">Jun</span>
+                                </div>
+                                <!-- End .post-date -->
+                                <span class="prod-full-screen">
+                                    <i class="fas fa-search"></i>
+                                </span>
+                            </div>
+                            <!-- End .post-media -->
+
+                            <div class="post-body">
+                                <h2 class="post-title">
+                                    <a href="{%url 'single'%}">Fashion Trends</a>
+                                </h2>
+
+                                <div class="post-content">
+                                    <p>Leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with... </p>
+
+                                    <a href="{%url 'single'%}" class="read-more">read more <i
+                                            class="icon-right-open"></i></a>
+                                </div>
+                                <!-- End .post-content -->
+                            </div>
+                            <!-- End .post-body -->
+                        </article>
+
+                        <article class="post">
+                            <div class="post-media">
+                                <a href="{%url 'single'%}">
+                                    <img src="{%static 'assets/images/blog/home/post-3.jpg'%}" data-zoom-image="assets/images/blog/home/post-3.jpg" width="280" height="209" alt="Post">
+                                </a>
+                                <div class="post-date">
+                                    <span class="day">29</span>
+                                    <span class="month">Jun</span>
+                                </div>
+                                <!-- End .post-date -->
+                                <span class="prod-full-screen">
+                                    <i class="fas fa-search"></i>
+                                </span>
+                            </div>
+                            <!-- End .post-media -->
+
+                            <div class="post-body">
+                                <h2 class="post-title">
+                                    <a href="{%url 'single'%}">
+                                        Post Format Video</a>
+                                </h2>
+
+                                <div class="post-content">
+                                    <p>Leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with... </p>
+
+                                    <a href="{%url 'single'%}" class="read-more">read more <i
+                                            class="icon-right-open"></i></a>
+                                </div>
+                                <!-- End .post-content -->
+                            </div>
+                            <!-- End .post-body -->
+                        </article>
+                    </div>
+                    <!-- End .posts-slider -->
+                </div>
+                <!-- End .widget -->
+            </aside>
+            <!-- End .col-lg-3 -->
+        </div>
+        <!-- End .row -->
+    </div>
+    <!-- End .container -->
+</main>
+<!-- End .main -->
+
+ {%endblock content%}
