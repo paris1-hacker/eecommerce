@@ -28,7 +28,6 @@ urlpatterns = [
     path('category/', views.category, name='category'), 
 
 
-    path('dashboard/', views.dashboard, name='dashboard'),
     path('checkout/', views.checkout, name='checkout'), 
 
     path('blog/', views.blog, name='blog'), 
@@ -39,5 +38,8 @@ urlpatterns = [
     
     path('get-shipping-fee/', views.get_shipping_fee, name='get_shipping_fee'),
     
+    path('verify-payment/', views.verify_payment, name='verify-payment'),
+    path("success/", views.success_page, name="success"),
+    path('initialize-payment/', views.initialize_payment_view, name='initialize-payment'),
 
 ]

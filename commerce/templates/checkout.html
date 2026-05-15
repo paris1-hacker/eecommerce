@@ -409,6 +409,7 @@
                 <!-- End .row -->
             </div>
            <script>
+
                 const totalDisplay = document.getElementById("total-price");
                 let cartTotal = parseFloat(totalDisplay.dataset.total);
 
@@ -456,6 +457,35 @@
                     shippingFee = 0;
                     updateTotal();
                 });
+
+
+
+                form = document.getElementById("checkout-form");
+                form.addEventListener("submit", function(e) {
+                    e.preventDefault();
+
+                    const formData = new FormData(form);
+
+                    fetch("/initialize-payment/", {
+                        method: "POST",
+                        headers: {
+                            "X-CSRFToken": csrftoken 
+                        },
+                        body: formData
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.status) {
+                            // ✅ Redirect to Paystack
+                            window.location.href = data.payment_url;
+                            console.log("Payment initialized successfully:", data);
+                        } else {
+                            alert("Payment failed");
+                        }
+                    })
+                    .catch(error => console.log(error));
+                });
+               
             </script>
                         <!-- End .container -->
         </main>

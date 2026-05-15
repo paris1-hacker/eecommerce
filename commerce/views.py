@@ -7,6 +7,10 @@ from django.core.paginator import Paginator
 from django.http import JsonResponse, HttpResponse
 import json
 from datetime import datetime
+from .utils.paystack import Paystack
+from decimal import Decimal 
+from django.contrib.auth.decorators import login_required
+
 
 
 def home(request):
@@ -17,17 +21,21 @@ def home(request):
     is_featured = Product.objects.filter(is_featured = True)
     top_rated = Product.objects.order_by('-average_rating')[:3]
     is_latest = Product.objects.order_by('-date_added')[:3]
-    # top_rated = Product.objects.filter(is_top=True)[:3]
+    # top_rated = Product.objects.filter(is _top=True)[:3]
     # is_latest = Product.objects.filter(is_latest=True)[:3]
     best_seller = Product.objects.filter(is_best_seller=True)[:3]\
 
-
+   
+    
     # base navabar cartitems...
     if request.user.is_authenticated:
         customer = request.user.customer
+        cart, created = Cart.objects.get_or_create(customer=customer, complete=False)
+        items = cart.cartitem_set.all()
         cartQuantity = cart.get_total_quantity
+        subtotal = cart.get_cart_totals
 
-    else:
+    else: 
         customer = None
         cookieData = cookieCart(request)
         cart = cookieData['cart']
@@ -36,10 +44,7 @@ def home(request):
         subtotal = cartValues['get_cart_totals']
         cartQuantity = cartValues['get_total_quantity']
          
-    cart, created = Cart.objects.get_or_create(customer=customer, complete=False)
-    items = cart.cartitem_set.all()
    
-
 
     print('items', items)
     context = { 'categorys': categorys, 'is_featured':is_featured, 
@@ -136,7 +141,7 @@ def product_detail(request, pk):
             #     email=email,)
             # return redirect('view', pk=product.id) 
 
-            
+             
 
 
 
@@ -154,13 +159,17 @@ def product_detail(request, pk):
        # base navabar cartitems...
     if request.user.is_authenticated:
         customer = request.user.customer
+        cart, created = Cart.objects.get_or_create(customer=customer, complete=False)
+        items = cart.cartitem_set.all()
+        cartQuantity = cart.get_total_quantity
+
     else:
         cookieData = cookieCart(request)
+        cart = cookieData['cart']
+        items = cookieData['items']
         cartValues =  cookieData['cartValues']
         cartQuantity = cartValues['get_total_quantity']
         customer = None
-    cart, created = Cart.objects.get_or_create(customer=customer, complete=False)
-    items = cart.cartitem_set.all()
 
     
     context = {'is_featured':is_featured, 'top_rated':top_rated, 
@@ -186,7 +195,7 @@ def shop(request):
         if search:
             products = products.filter(name__icontains=search)
         if subcategory:
-            products = products.filter(subcategory_id=subcategory)    
+            products = products.filter(subcategory__id=subcategory)    
     
     is_featured = Product.objects.filter(is_featured = True)[:3]
     
@@ -254,23 +263,24 @@ def shop(request):
        products= products.filter(variations__variation_type=size).distinct()
 
 
-    cart = Cart.objects.all()
     
     # rendering out cart quantity
     # base navabar cartitems...
     if request.user.is_authenticated:
         customer = request.user.customer
+        cart, created = Cart.objects.get_or_create(customer=customer, complete=False)
+        items = cart.cartitem_set.all()
+        cartQuantity = cart.get_total_quantity
     else:
         customer = None
         cookieData = cookieCart(request)
         cartValues =  cookieData['cartValues']
         cartQuantity = cartValues['get_total_quantity']
-    cart, created = Cart.objects.get_or_create(customer=customer, complete=False)
-    items = cart.cartitem_set.all()
-
+    
+    
     # django pagination
-    p = Paginator(Product.objects.all(), 4)
-    page = request.GET.get('page')
+    p = Paginator(Product.objects.all(), 1)
+    page = request.GET.get('page') 
     products = p.get_page(page)
     # nums = "a" * products.paginator.num_pages
 
@@ -285,107 +295,165 @@ def shop(request):
     return render(request, 'shop.html', context)
 
 
-    
-def checkout(request):
+    # old checkout
+# def checkout(request):
 
-    if request.user != None:
-        return HttpResponse('Please log in...')
-    total = 0
-    shipping_cost = 0
-    transaction_id = datetime.now().timestamp()
-    shipping_type = 'pickup'
+#     if not request.user.is_authenticated:
+#         return HttpResponse('Please log in...')
+    
+#     total = 0
+#     shipping_cost = 0
+#     transaction_id = datetime.now().timestamp()
+#     shipping_type = 'pickup'
 
     
    
-    if request.user.is_authenticated:
+#     if request.user.is_authenticated:
        
-        customer = request.user.customer
-        cart, created = Cart.objects.get_or_create(customer=customer, complete=False)
-        items = cart.cartitem_set.all()
+#         customer = request.user.customer
+#         cart, created = Cart.objects.get_or_create(customer=customer, complete=False)
+#         items = cart.cartitem_set.all()
 
-        shipping = ShippingFee.objects.all()    
-        cart_total = cart.get_cart_totals
+#         shipping = ShippingFee.objects.all()    
+#         cart_total = cart.get_cart_totals
 
-        if request.method == 'POST':
-            # Billing info
-            first_name = request.POST.get("first_name")
-            last_name = request.POST.get("last_name")
-            email = request.POST.get("email")
-            phone = request.POST.get("phone")
+#         if request.method == 'POST':
+#             # Billing info
+#             first_name = request.POST.get("first_name")
+#             last_name = request.POST.get("last_name")
+#             email = request.POST.get("email")
+#             phone = request.POST.get("phone")
 
-            address = request.POST.get("address")
-            city = request.POST.get("city")
-            state = request.POST.get("state")
-            zipcode = request.POST.get("zipcode")
+#             address = request.POST.get("address")
+#             city = request.POST.get("city")
+#             state = request.POST.get("state")
+#             zipcode = request.POST.get("zipcode")
 
-            shipping_type = request.POST.get("shipping_type", 'pickup')
+#             shipping_type = request.POST.get("shipping_type", 'pickup')
 
            
 
-            if shipping_type ==  "delivery":
-                if state:
-                    shipping_list = ShippingFee.objects.filter(state=state).first()
-                    if shipping_list:
-                      shipping_cost = shipping_list.fee 
-                    else:
-                        shipping_cost = 0
-            else:
-                shipping_cost = 0
-            total = cart_total + shipping_cost
+#             if shipping_type ==  "delivery":
+#                 if state:
+#                     shipping_list = ShippingFee.objects.filter(state=state).first()
+#                     if shipping_list:
+#                       shipping_cost = shipping_list.fee 
+#                     else:
+#                         shipping_cost = 0
+#             else:
+#                 shipping_cost = 0
+#             total = cart_total + shipping_cost
+
+#             # # 🔹 3. INITIALIZE PAYSTACK
+#             # payment_data = Paystack.initialize_payment(email, total)
+
+#             # if not payment_data.get("status"):
+#             #     return redirect("checkout")
+
+#             # # 🔹 4. GET PAYSTACK DATA
+#             # reference = payment_data["data"]["reference"]
+#             # payment_url = payment_data["data"]["authorization_url"]
 
 
-                    #    CREATE ORDER
-            order = Order.objects.create(
-                customer=customer,
-                shipping_type = shipping_type,  
-                transaction_id = transaction_id
+#             #   CREATE PENDING ORDER
+#             order = Order.objects.create(
+#                 customer=customer,
+#                 shipping_type = shipping_type,  
+#                 # transaction_id = reference,
+#                 complete = False, 
+#                 total = total, 
 
-            )
 
-            #  CREATE ORDER ITEMS FROM CARTITEMS
-            for item in items:
-                OrderItem.objects.create(
-                    order=order,
-                    product=item.product,
-                    quantity=item.quantity,
-                    price=item.product.price
-                )
+#             )
 
-            #  CREATE SHIPPING ADDRESS (ONLY IF DELIVERY)
-            if shipping_type == "delivery":
-                ShippingAddress.objects.create(
-                    customer=customer,
-                    order=order,
-                    address=address,
-                    city=city,
-                    state=state,
-                    zipcode=zipcode,
-                    first_name = first_name, 
-                    last_name= last_name, 
-                    email = email, 
-                    phone = phone
-                )
+#             #  CREATE ORDER ITEMS FROM CARTITEMS
+#             for item in items:
+#                 OrderItem.objects.create(
+#                     order=order,
+#                     product=item.product,
+#                     quantity=item.quantity,
+#                     price=item.product.price
+#                 )
+
+#             #  CREATE SHIPPING ADDRESS (ONLY IF DELIVERY)
+#             if shipping_type == "delivery":
+#                 ShippingAddress.objects.create(
+#                     customer=customer,
+#                     order=order,
+#                     address=address,
+#                     city=city,
+#                     state=state,
+#                     zipcode=zipcode,
+#                     first_name = first_name, 
+#                     last_name= last_name, 
+#                     email = email, 
+#                     phone = phone
+#                 )
 
         
-            # MARK CART COMPLETE
-            cart.complete = True
-            cart.save()
+#              # ❗ DO NOT CLEAR CART YET
 
+#             # 🔹 8. REDIRECT TO PAYSTACK
+#             # return redirect(payment_url)
      
-            # return redirect("shop")
-    else:
-        pass
+#     else:
+#         pass
    
-    print("Shipping Type:", request.POST)
+#     print("Shipping Type:", request.POST)
     
-    context = {
-        'items':items, 
-        'cart':cart, 
-        'shipping':shipping,
-        'total': total 
-    }
-    return render(request, 'checkout.html', context)
+#     context = {
+#         'items':items, 
+#         'cart':cart, 
+#         'shipping':shipping,
+#         'total': total 
+#     }
+#     return render(request, 'checkout.html', context)
 
+# new checkout with ajax shipping fee calculation
+def checkout(request):
+
+    if not request.user.is_authenticated:
+        return HttpResponse('Please log in...')
+
+    customer = request.user.customer
+    cart, created = Cart.objects.get_or_create(customer=customer, complete=False)
+    items = cart.cartitem_set.all()
+
+    shipping_list = ShippingFee.objects.all()
+    cart_total = cart.get_cart_totals
+
+    shipping_cost = 0
+    shipping_type = 'pickup'
+
+    if request.method == 'POST':
+   
+        shipping_type = request.POST.get("shipping_type", 'pickup')
+        state = request.POST.get("state")
+
+        if shipping_type == "delivery":
+            shipping = ShippingFee.objects.filter(state=state).first()
+            if shipping:
+                shipping_cost = shipping.fee
+            else:
+                shipping_cost = 0
+
+        
+        else:
+            shipping_cost = 0
+        
+    total = cart_total + shipping_cost
+
+    context = {
+        'items': items,
+        'cart': cart,
+        'shipping': shipping_list,
+        'cart_total': cart_total,
+        'shipping_cost': shipping_cost,
+        'total': total,
+        'shipping_type': shipping_type,
+    }
+
+    return render(request, 'checkout.html', context)
 
 
 def cart(request):
@@ -421,12 +489,12 @@ def cart(request):
     shipping_cost = 0
 
     if shipping_type == 'pickup':
-        shipping_cost = 0
+        shipping_cost = 0 
 
     elif shipping_type == 'delivery':
         if state:
             shipping = ShippingFee.objects.filter(state=state).first()
-            if shipping:
+            if shipping:  
                 shipping_cost = shipping.fee
 
     if request.user.is_authenticated:
@@ -513,11 +581,6 @@ def wishlistt(request):
 def single (request):
     return render(request, 'single.html')
 
-
-
-def dashboard(request):
-    return render(request, 'dashboard.html')
-
 def category(request):
     return render(request, 'category.html')
 
@@ -548,6 +611,7 @@ def cookieCart(request):
     items  = []
     
     cartValues = {'get_cart_totals': 0, 'get_total_quantity': 0}
+    subtotal = 0
     
 
     for i in cart:
@@ -580,3 +644,122 @@ def cookieCart(request):
     return  {'cart': cart,  
              'items': items, 'cartValues':cartValues, 'subtotal':subtotal
              } 
+
+
+# intialize payment view with ajax and create order before redirecting to paystack
+def initialize_payment_view(request):
+    if request.method == "POST":
+        first_name = request.POST.get("first_name")
+        last_name = request.POST.get("last_name")
+        email = request.POST.get("email")
+        phone = request.POST.get("phone")
+        address = request.POST.get("address")
+        city = request.POST.get("city")
+        state = request.POST.get("state")
+        zipcode = request.POST.get("zipcode")
+
+        customer = request.user.customer
+        cart = Cart.objects.get(customer=customer, complete=False)
+        items = cart.cartitem_set.all()
+
+        # ✅ Calculate amount from backend
+        cart_total = cart.get_cart_totals
+
+        shipping_type = request.POST.get("shipping_type")
+        state = request.POST.get("state")
+
+        shipping_cost = 0
+
+        if shipping_type == "delivery":
+            shipping = ShippingFee.objects.filter(state=state).first()
+            if shipping:
+                shipping_cost = shipping.fee
+
+            
+
+        total = cart_total + shipping_cost
+
+        # ✅ Create Order
+        order = Order.objects.create(
+            customer=customer,
+            total=total,
+            complete=False
+        )
+
+        # ✅ Create Order Items
+        for item in items:
+            OrderItem.objects.create(
+                order=order,
+                product=item.product,
+                quantity=item.quantity,
+                price=item.product.price
+            )
+
+        if shipping_type == "delivery":
+            ShippingAddress.objects.create(
+                customer=customer,
+                order=order,
+                address=address,
+                city=city,
+                state=state,
+                zipcode=zipcode,
+                first_name = first_name, 
+                last_name= last_name, 
+                email = email, 
+                phone = phone
+        )
+        # ✅ Initialize Paystack
+        response = Paystack.initialize_payment(customer.user.email, total)
+
+        if response.get("status"):
+            payment_url = response["data"]["authorization_url"]
+            reference = response["data"]["reference"]
+
+            order.transaction_id = reference
+            order.save()
+
+            # ✅ RETURN JSON (for AJAX)
+            return JsonResponse({
+                "status": True,
+                "payment_url": payment_url
+            })
+        
+
+        return JsonResponse({"status": False})
+
+
+def verify_payment(request):
+
+    reference = request.GET.get("reference")
+
+    if not reference:
+        return redirect("checkout")
+
+    response = Paystack.verify_payment(reference)
+
+    if response.get("status") and response["data"]["status"] == "success":
+
+        order = Order.objects.get(transaction_id=reference)
+
+        # prevent double payment
+        if order.complete:
+            return redirect("success")
+
+        order.complete = True
+        order.save()
+
+        # 🔥 NOW clear cart
+        cart = Cart.objects.get(customer=order.customer, complete=False)
+        cart.complete = True
+        cart.save()
+
+        return redirect("success")
+
+    return redirect("checkout")
+
+
+def success_page(request):
+    return render(request, "success.html")
+
+
+

@@ -9,11 +9,11 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 class Customer(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
     full_name = models.CharField(max_length=255, null=True, blank=True)
-    email = models.EmailField()
+    email = models.EmailField(null=True, blank=True)
     age =  models.PositiveIntegerField(null=True, blank=True)
     avatar = models.ImageField(null=True, blank=True, upload_to='assests/images/blog')
 
-    def __str__(self):
+    def __str__(self): 
         return self.user.username
 
 
@@ -242,14 +242,21 @@ class Order(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     shipping_type = models.CharField(max_length=255)
     transaction_id =  models.CharField(max_length=255)
+    complete = models.BooleanField(default=False)
+    total = models.DecimalField(max_digits=11, decimal_places=2, null=True, blank=True)
     
-
-
-    # total_price
-    # shiping address
+    @property
+    def subtotal(self):
+        orderitem = self.orderitem_set.all()
+        total = sum([item.get_subtotal for item in orderitem])
+        return total
+    
 
     def __str__(self):
         return self.transaction_id
+
+    class Meta:
+        ordering = ['-created_at']
 
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
@@ -259,6 +266,12 @@ class OrderItem(models.Model):
 
     def __str__(self):
         return str( self.quantity)
+
+    @property
+    def get_subtotal(self):
+        total = self.product.price * self.quantity
+        return total
+
     
 # building Shipiing feeas per state
 class ShippingFee(models.Model):

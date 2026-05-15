@@ -267,7 +267,8 @@
                       
                        {% comment %} <li class="page-item"> <a class="page-link" href="#">
                             Page {{products.number}} of {{products.paginator.num_pages}}
-                       </a></li> {% endcomment %}
+                       </a></li> 
+
 
                         {%if products.has_next%}
                             <a class="page-link page-link-btn" href="?page={{products.next_page_number}}"><i class="icon-angle-right"></i></a>
@@ -416,7 +417,7 @@
                                 <div class="widget-body pb-0">
 
                                   
-                                     <ul class="config-size-list" name="size">
+                                    <ul class="config-size-list">
                                         <li class="{%if request.GET.size == 'XXL'%}active {%endif%}"><a href="?size=XXL">XXL</a></li>
                                         <li class="{%if request.GET.size == 'XL'%}active {%endif%}"><a href="?size=XL">XL</a></li>
                                         <li class="{%if request.GET.size == 'L'%}active {%endif%}"><a href="size=L">L</a></li>

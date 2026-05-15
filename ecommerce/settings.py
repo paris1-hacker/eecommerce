@@ -130,3 +130,7 @@ STATICFILES_DIRS = [BASE_DIR / "static"]
 MEDIA_URL = '/media/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'static/images/products')
+
+
+PAYSTACK_WALLET_CALLBACK_URL = "http://127.0.0.1:8000/verify-payment/"
+PAYSTACK_SECRET_KEY = "sk_test_a16ac25bbc63e5b84503fc01e5dd8521891a4342"

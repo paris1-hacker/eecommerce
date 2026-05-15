@@ -30,10 +30,11 @@
 							<h2 class="title">Login</h2>
 						</div>
 
-						<form method="POST">
+						 <form method="POST" action = "{%url 'login'%}" onsubmit="console.log('FORM SUBMITTED')" >
 							{%csrf_token%}
+
 							<label for="login-email">
-								Username or email address
+								Username
 								<span class="required">*</span>
 							</label>
 							<input type="text" name="username" class="form-input form-wide" id="login-email" required />
@@ -58,7 +59,8 @@
 							<button type="submit" class="btn btn-dark btn-md w-100">
 								LOGIN
 							</button>
-						</form>
+						</form> 
+
 
 
 
@@ -68,19 +70,36 @@
 							<h2 class="title">Register</h2>
 						</div>
 
-						<form action="#">
+						<form action="{%url 'register'%}" method="POST">
+							{%csrf_token%}
+
+							<label for="register-username">
+								Username
+								<span class="required">*</span>
+							</label>
+							<input type="text" class="form-input form-wide" id="register-username" name="username" required />
+
 							<label for="register-email">
 								Email address
 								<span class="required">*</span>
 							</label>
-							<input type="email" class="form-input form-wide" id="register-email" required />
+							<input type="email" name="email" class="form-input form-wide" id="register-email" required />
 
-							<label for="register-password">
+							<label for="register-password1">
 								Password
 								<span class="required">*</span>
 							</label>
-							<input type="password" class="form-input form-wide" id="register-password"
+							<input type="password" name="password1" class="form-input form-wide" id="register-password1"
 								required />
+
+
+							<label for="register-password2">
+								Confirm Password
+								<span class="required">*</span>
+							</label>
+							<input type="password" name="password2" class="form-input form-wide" id="register-password2"
+								required />
+
 
 							<div class="form-footer mb-2">
 								<button type="submit" class="btn btn-dark btn-md w-100 mr-0">

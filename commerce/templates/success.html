@@ -1,0 +1,60 @@
+
+{%extends 'main.html'%}
+
+
+{%load static%}
+
+{%block content%}
+
+<div class="success-container">
+
+    <div class="success-card">
+
+        <!-- Icon -->
+        <div class="success-icon">
+            ✅
+        </div>
+
+        <!-- Title -->
+        <h1 class="success-title">
+            Payment Successful
+        </h1>
+
+        <!-- Message -->
+        <p class="success-text">
+            🎉 Thank you for your order! <br>
+            Your payment has been confirmed and your order is being processed.
+        </p>
+
+        <!-- Order info box -->
+        <div class="success-box">
+            <p>📦 Your order has been placed successfully</p>
+            <p>📧 A confirmation email will be sent to you shortly</p>
+            <p>🚚 We will notify you once your order is shipped</p>
+        </div>
+
+        <!-- Buttons -->
+        <div class="success-actions">
+
+            <a href="{% url 'shop' %}" class="btn btn-shop">
+                🛍️ Continue Shopping
+            </a>
+
+            <a href="" class="btn btn-orders">
+                📋 View My Orders
+            </a>
+
+        </div>
+
+        <!-- Footer note -->
+        <p class="success-footer">
+            💙 We appreciate your trust in us!
+        </p>
+
+    </div>
+
+</div>
+
+
+{%endblock%}
+	
