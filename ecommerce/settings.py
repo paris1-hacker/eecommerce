@@ -32,7 +32,7 @@ SECRET_KEY = env('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost','127.0.0.1', 'www.eecommerce-ebon.vercel.app', 'eecommerce-ebon.vercel.app']
+ALLOWED_HOSTS = ['localhost','127.0.0.1', 'www.eecommerce-xi.vercel.app', 'eecommerce-xi.vercel.app']
 
 
 # Application definition
