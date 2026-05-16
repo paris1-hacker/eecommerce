@@ -277,7 +277,7 @@ def shop(request):
         cartValues =  cookieData['cartValues']
         cartQuantity = cartValues['get_total_quantity']
         cart = cookieData['cart']
-    
+        items = cookieData['items'] 
     
     # django pagination
     p = Paginator(Product.objects.all(), 1)
