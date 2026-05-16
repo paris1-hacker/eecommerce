@@ -139,7 +139,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / "static"]
 
-STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATIC_ROOT = os.path.join(BASE_DIR / 'staticfiles', 'static')
 
 
 MEDIA_URL = '/media/'
@@ -149,3 +149,4 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'static/images/products')
 
 PAYSTACK_WALLET_CALLBACK_URL = env('PAYSTACK_WALLET_CALLBACK_URL')
 PAYSTACK_SECRET_KEY = env('PAYSTACK_SECRET_KEY')
+
