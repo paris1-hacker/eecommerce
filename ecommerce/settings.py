@@ -12,16 +12,22 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 
 from pathlib import Path
 import os
+import environ
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
+# intialize environment variables 
+env = environ.Env(
+    DEBUG= (bool, True)
+)
+# read env files 
+environ.Env.read_env(os.path.join(BASE_DIR / '.env'))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-6=je8w*ys7a3#q#l54^qgcmmzv&4xxl=lj8!3za!0yeg^wo(5k'
+SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -43,10 +49,11 @@ INSTALLED_APPS = [
     'pages',
 
     # third party appps
-    'colorfield',
+    # 'colorfield',
 ]
 
 MIDDLEWARE = [
+    'whitenoise.middleware.WhiteNoiseMiddleware'
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -55,6 +62,8 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 ROOT_URLCONF = 'ecommerce.urls'
 
@@ -83,8 +92,12 @@ WSGI_APPLICATION = 'ecommerce.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': env('NAME'),
+        'USER': env('USER'), 
+        'PASSWORD': env('PASSWORD'), 
+        'HOST': env('HOST'), 
+        'PORT': env('PORT'),
     }
 }
 
@@ -126,11 +139,13 @@ USE_TZ = True
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [BASE_DIR / "static"]
 
+STATIC_ROOT = os.path.join(BASE_DIR / 'staticfiles_build')
+
 
 MEDIA_URL = '/media/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'static/images/products')
 
 
-PAYSTACK_WALLET_CALLBACK_URL = "http://127.0.0.1:8000/verify-payment/"
-PAYSTACK_SECRET_KEY = "sk_test_a16ac25bbc63e5b84503fc01e5dd8521891a4342"
+PAYSTACK_WALLET_CALLBACK_URL = env('PAYSTACK_WALLET_CALLBACK_URL')
+PAYSTACK_SECRET_KEY = env('PAYSTACK_SECRET_KEY')
