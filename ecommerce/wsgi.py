@@ -14,5 +14,4 @@ from whitenoise import WhiteNoise
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'ecommerce.settings')
 
 application = get_wsgi_application()
-
-app = WhiteNoise(application)
+application = WhiteNoise(application)
